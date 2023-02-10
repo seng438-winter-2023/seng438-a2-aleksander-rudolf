@@ -11,28 +11,589 @@
 
 # 1 Introduction
 
-Text…
+In this lab, we learned the basics of automated unit testing and testing specific requirements for each unit. We did not have access to the actual code of the program, just the documentation, so we performed black-box testing following the guidelines set out for us during our lectures. We examined the methods in the classes to build partitions. The partitions were later used to write our test code. We worked with JUnit and other XUnit frameworks to test two class methods in the JFreeChart program. We also used mock objects during the development of our test code. Lastly, we all became familiarized with Eclipse and its JUnit functionality. The lab allowed us to learn how to use Eclispse while familiarizing ourselves with JUnit and black-box testing.
 
 # 2 Detailed description of unit test strategy
 
-// including the input partitions you have designed
+During the design phase of our test plan, we began by going through the documentation that was provided to us related to both of the classes, DataUtilities and Range. We had to write unit testing for 5 methods related to DataUtilities class and 5 out of 15 methods from the Range class. For writing the unit tests for all these methods, we first tried to analyze and understand the functionalities of those methods. Later on, from there we took the approach of creating equivalence classes and looking at boundary cases for all the methods of both classes. For all the methods for the range class, we used stubs in testing. A stub in testing simulates objects with the minimum methods needed for a test. For the methods in the DataUtilities class, we had to use Mock objects as some of the methods used Values2D for its inputs. Mock tests are most applicable when we have an extensive test suite, and each requires a unique data set.
+
+Input Partitions:
+
+org.jfree.data.DataUtilities Methods:
+
+calculateColumnTotal(Values2D data, int column) 
+Returns sum of values (double) in one column of supplied data table
+1. Column
+  a) Less than zero (invalid)
+  b) Column < data.getColumnCount() and greater than 0(valid)
+  c) Column > data.getColumnCount() (invalid)
+2. Data
+  a) Null data (invalid)
+  b) Not null data (valid)
+    i. EmptyChart (row=0, column = 0)
+    ii. NotEmptyChart
+      a) All values are positive (including small and large values)
+      b) All values are negative (including small and large values)
+      c) Mixture of positive, negative, large, and small values
+    iii. Chart with negative column (invalid)
+                                
+ 
+calculateRowTotal(Values 2D data, int row)
+Returns sum of values (double) in one row of supplied data table
+1. Row
+  a) Less than zero (invalid)
+  b) Row < data.getRowCount() and greater than 0(valid)
+  c) Row > data.getRowCount() (invalid)
+2. Data
+  a) Null data (invalid)
+  b) Not null data (valid)
+    i. EmptyChart (row=0, column = 0)
+    ii. NotEmptyChart
+      a) All values are positive (including small and large values)
+      b) All values are negative (including small and large values)
+      c) Mixture of positive, negative, large, and small values
+    iii. Chart with negative row (invalid)
+
+
+createNumberArray(double [] data)
+Constructs an array of number objects from an array of double
+1. Data
+    a) Null data (invalid)
+      i. Throws InvalidParameterException 
+    b) Not null data (valid)
+      i. Empty data
+      ii. Not empty data
+        a) One value
+        b) Array length
+        c) All values are positive 
+        d) All values are negative
+        e) Mix of positive and negative values
+        f) All values are large
+        g) All values are small
+        h) Mix of large and small values
+
+createNumberArray2D(double [][] data)
+Constructs an array of arrays of Number objects from a corresponding structure containing double primitives
+1. Data
+    a) Null data (invalid)
+      i. Throws InvalidParameterException 
+    b) Not null data (valid)
+      i. Empty data
+      ii. Not empty data
+        a) One value
+        b) Array length
+        c) All values are positive 
+        d) All values are negative
+        e) Mix of positive and negative values
+        f) All values are large
+        g) All values are small
+        h) Mix of large and small values 
+
+getCumulativePercentages(KeyedValues data)
+Returns a KeyedValues instance that contains the cumulative percentage values for the data in another KeyedValues instance. The cumulative percentage is each value's cumulative sum's portion of the sum of all the values
+1. Data
+    a) Null data (invalid)
+      i. Throws InvalidParameterException 
+    b) Not null data (valid)
+      i. Not empty data
+        a) All values are positive 
+        b) All values are negative
+
+
+
+org.jfree.data.Range Methods:
+
+contains(double value)
+Returns true if the specified value is within the range and false otherwise.
+1. Value is < lower bound of the range (invalid)
+2. Value is > upper bound of the range (invalid)
+3. Value is lower bound of the range (valid)
+4. Value is upper bound of the range (valid)
+5. Value is between lower and upper bound of the range (valid)
+6. Decimal value is between lower and upper bound of the range (valid)
+
+
+getLength()
+Returns length of range (double)
+1. Range which is not null (valid)
+    a) Range with same lower and upper bound ((x,x) valid)
+    b) Range with both positive lower and upper bounds ((x, x+1) valid)
+    c) Range with both negative lower and upper bounds ((-x-1, -x) valid)
+    d) Range with negative lower bound and positive upper bound ((-x, x) valid)
+    e) Decimal range
+2. Range which is null (invalid)
+
+getLowerBound()
+Returns the lower bound for the range (double)
+1. Range which is not null (valid)
+    a) Range with same lower and upper bound ((x,x) valid)
+    b) Range with both positive lower and upper bounds ((x, x+1) valid)
+    c) Range with both negative lower and upper bounds ((-x-1, -x) valid)
+    d) Range with negative lower bound and positive upper bound ((-x, x) valid)
+    e) Decimal range
+2. Range which is null (invalid)
+
+getUpperBound()
+Returns the upper bound for the range (double)
+1. Range which is not null (valid)
+    a) Range with same lower and upper bound ((x,x) valid)
+    b) Range with both positive lower and upper bounds ((x, x+1) valid)
+    c) Range with both negative lower and upper bounds ((-x-1, -x) valid)
+    d) Range with negative lower bound and positive upper bound ((-x, x) valid)
+    e) Decimal range
+2. Range which is null (invalid)
+
+getCentralValue()
+Returns the central (or median) value for the range.
+1. Range which is not null (valid)
+    a) Range with same lower and upper bound ((x,x) valid)
+    b) Range with both positive lower and upper bounds ((x, x+1) valid)
+    c) Range with both negative lower and upper bounds ((-x-1, -x) valid)
+    d) Range with negative lower bound and positive upper bound ((-x, x) valid)
+    e) Decimal range
+2. Range which is null (invalid)
+
 
 # 3 Test cases developed
 
-Text…
+Table 1: Test cases for org.jfree.data.Range
 
-// write down the name of the test methods and classes. Organize the based on
-the source code method // they test. identify which tests cover which partitions
-you have explained in the test strategy section //above
+Class Name
+Method
+Partition # related
+Test case name
+Pass/Fail
+
+Range
+contains
+1
+containsLessThanLowerBound()
+Pass
+
+Range
+contains
+2
+containsMoreThanUpperBound()
+Pass
+
+Range
+contains
+3
+containsValueForLowerBound()
+Pass
+
+Range
+contains
+4
+containsValueForUpperBound()
+Pass
+
+Range
+contains
+5
+containsValueBetweenUpperAndLowerBound()
+Pass
+
+Range
+contains
+6
+containsDecimalInRange()
+Fail
+
+Range
+getLength
+1.a
+getLengthSameLowerUpperBound()
+Pass
+
+Range
+getLength
+1.b
+getLengthPositiveLowerUpperBound()
+Pass
+
+Range
+getLength
+1.c
+getLengthNegativeLowerUpperBound()
+Pass
+
+Range
+getLength
+1.d
+getLengthNegativeLowerPositiveUpper()
+Pass
+
+Range 
+getLength
+1.e
+getLengthDecimalRange()
+Pass
+
+Range
+getLength
+2
+getLengthNullRange()
+Pass
+
+Range
+getLowerBound
+1.a
+getLowerBoundSameLowerUpperBound()
+Pass
+
+Range
+getLowerBound
+1.b
+getLowerBoundPositiveLowerUpperBound()
+Pass
+
+Range 
+getLowerBound
+1.c
+getLowerBoundNegativeLowerUpperBound()
+Pass
+
+Range
+getLowerBound
+1.d
+getLowerBoundNegativeLowerPositiveUpper()
+Pass
+
+Range
+getLowerBound
+1.e
+getLowerBoundDecimalRange()
+Pass
+
+Range
+getLowerBound
+2
+getLowerBoundNullRange()
+Pass
+
+Range
+getUpperBound
+1.a
+getUpperBoundSameLowerUpperBound()
+Pass
+
+Range
+getUpperBound
+1.b
+getUpperBoundPositiveLowerUpperBound()
+Fail
+
+Range
+getUpperBound
+1.c
+getUpperBoundNegativeLowerUpperBound()
+Fail
+
+Range 
+getUpperBound
+1.d
+getUpperBoundNegativeLowerPositiveUpper()
+Fail
+
+Range 
+getUpperBound
+1.e
+getUpperBoundDecimalRange()
+Fail
+
+Range
+getUpperBound
+2
+getUpperBoundNullRange()
+Pass
+
+Range
+getCentralValue
+1.a
+getCentralValueSameLowerUpperBound()
+Pass
+
+Range
+getCentralValue
+1.b
+getCentralValuePositiveLowerUpperBound()
+Pass
+
+Range
+getCentralValue
+1.c
+getCentralValueNegativeLowerUpperBound()
+Pass
+
+Range 
+getCentralValue 
+1.d
+getCentralValueNegativeLowerPositiveUpper()
+Pass
+
+Range 
+getCentralValue
+1.e
+getCentralValueDecimalRange()
+Fail
+
+Range
+getCentralValue
+2
+getCentralValueNullRange()
+Pass
+
+Table 2: Test cases for org.jfree.data.DataUtilties
+
+Class name
+Method
+Partition
+#related
+Test case name
+Pass/Fail
+
+DataUtilities
+calculateColumnTotal
+1.a
+calculateColumnTotalColumnLessThanZero
+(invalid)
+Pass
+
+DataUtilities
+calculateColumnTotal
+1.d
+calculateColumnTotalColumnGreaterThanActualColumnsInData()
+Pass
+
+DataUtilities
+calculateColumnTotal
+2.a
+calculateColumnTotalDataIsNull()
+Fail
+
+DataUtiilties
+calculateColumnTotal
+2.b.i
+calculateColumnTotalEmptyData()
+Pass
+
+DataUtilities
+calculateColumnTotal
+2.b.ii.a, 1.b
+calculateColumnTotalDataPositiveValues() 
+Pass
+
+DataUtilities
+calculateColumnTotal
+2.b.ii.b, 1.b
+calculateColumnTotalDataNegativeValues()
+Pass
+
+DataUtilities
+calculateColumnTotal
+2.b.ii.c, 1.b
+calculateColumnTotalDataMixedValues()
+Pass
+
+DataUtilities
+calculateColumnTotal
+2.b.iii
+calculateColumnTotalWhenDataIsInvalidWithNegativeColumns()
+Fail
+
+DataUtilities
+calculateRowTotal
+1.a
+calculateRowTotalColumnLessThanZero
+(invalid)
+Pass
+
+DataUtilities
+calculateRowTotal
+1.d
+calculateRowsTotalColumnGreaterThanActualRowsInData()
+Pass
+
+DataUtilities
+calculateRowTotal
+2.a
+calculateRowTotalDataIsNull()
+Fail
+
+DataUtiilties
+calculateRowTotal
+2.b.i
+calculateRowTotalEmptyData()
+Pass
+
+DataUtilities
+calculateRowTotal
+2.b.ii.a, 1.b
+calculateRowTotalDataPositiveValues() 
+Fail
+
+DataUtilities
+calculateRowTotal
+2.b.ii.b, 1.b
+calculateRowTotalDataNegativeValues()
+Fail
+
+DataUtilities
+calculateRowTotal
+2.b.ii.c, 1.b
+calculateRowTotalDataMixedValues()
+Fail
+
+DataUtilities
+calculateRowTotal
+2.b.iii
+calculateRowTotalWhenDataIsInvalidWithNegativeRows()
+Pass
+
+DataUtilities
+getCumulativePercentages
+getCumulativePercentagesSmallPositiveValues
+Fail
+
+DataUtilities
+getCumulativePercentages
+getCumulativePercentagesSmallNegativeValues
+Fail
+
+DataUtilities
+getCumulativePercentages
+getCumulativePercentagesDataIsNull
+Fail
+
+DataUtilities
+createNumberArray
+1.a.i
+createNumberArrayDataIsNull()
+Fail
+
+DataUtilities
+createNumberArray
+1.b.i
+createNumberArrayDataIsEmpty()
+Pass
+
+DataUtilities
+createNumberArray
+1.b.ii.a
+createNumberArrayDataOneValue()
+Fail
+
+DataUtilities
+createNumberArray
+1.b.ii.b
+createNumberArrayLength()
+Pass
+
+DataUtilities
+createNumberArray
+1.b.ii.c
+createNumberArrayDataPositiveValues()
+Fail
+
+DataUtilities
+createNumberArray
+1.b.ii.d
+createNumberArrayDataNegativeValues()
+Fail
+
+DataUtilities
+createNumberArray
+1.b.ii.e
+createNumberArrayDataPositiveNegativeValues()
+Fail
+
+DataUtilities
+createNumberArray
+1.b.ii.f
+createNumberArrayDataLargeValues()
+Fail
+
+DataUtilities
+createNumberArray
+1.b.ii.g
+createNumberArrayDataSmallValues()
+Fail
+
+DataUtilities
+createNumberArray
+1.b.ii.h
+createNumberArrayDataLargeSmallValues()
+Fail
+
+DataUtilities
+createNumberArray2D
+1.a.i
+createNumberArray2DDataIsNull()
+Fail
+
+DataUtilities
+createNumberArray2D
+1.b.i
+createNumberArray2DDataIsEmpty()
+Pass
+
+DataUtilities
+createNumberArray2D
+1.b.ii.a
+createNumberArray2DDataOneValue()
+Fail
+
+DataUtilities
+createNumberArray2D
+1.b.ii.b
+createNumberArray2DLength()
+Pass
+
+DataUtilities
+createNumberArray2D
+1.b.ii.c
+createNumberArray2DDataPositiveValues()
+Fail
+
+DataUtilities
+createNumberArray2D
+1.b.ii.d
+createNumberArray2DDataNegativeValues()
+Fail
+
+DataUtilities
+createNumberArray2D
+1.b.ii.e
+createNumberArray2DDataPositiveNegativeValues()
+Fail
+
+DataUtilities
+createNumberArray2D
+1.b.ii.f
+createNumberArray2DDataLargeValues()
+Fail
+
+DataUtilities
+createNumberArray2D
+1.b.ii.g
+createNumberArray2DDataSmallValues()
+Fail
+
+DataUtilities
+createNumberArray2D
+1.b.ii.h
+createNumberArray2DDataLargeSmallValues()
+Fail
 
 # 4 How the team work/effort was divided and managed
 
-Text…
+As a group we all went through each method for the classes we were testing and agreed upon the partitions. After we had all our partitions we divided the work among the 4 of us to write the test code for each partition. We worked during lab time on developing the partitions and met again on discord so we could each work on our respective test code. While on our discord call, we shared screens to help each other write the code for more difficult test cases. All of us working on our individual code for our partitions allowed us to efficiently write the test code while also ensuring we could help each other out. This method also allowed us to learn from our peers mistakes while writing the test code and to ensure a consistent way of writing the test code. This also allowed each member of our team an opportunity to write test code for both classes and work with issues related to mocking. Once all of our test code was written and individually ran on each person’s Eclipse we combined all the tests into one file for each class we tested. Once we had the cumulative files for each class we ran it again to test all the test cases we developed against the program and documented our results in the tables above. Working together for every step of the process allowed us to learn from each other and to have an understanding of each step in our process. 
 
 # 5 Difficulties encountered, challenges overcome, and lessons learned
 
-Text…
+One of the biggest challenges we encountered in this lab was creating our partitions. We were unsure whether we needed to implement strong or weak ECT. Once we knew we had to implement weak ECT we were able to determine our partitions for all of our methods for each respective class. We also struggled with developing partitions for methods that had an object being passed into the method. For example the calculateColumnTota(Values2D data, int column) method in the Data utilities class we struggled with finding partitions as we initially tried to do multi-dimensional partitioning right away. We ended up confusing ourselves initially when we tried multi-dimensional partitioning right away and after discussing amongst ourselves and looking at the documentation clearly for the method and for Values2D we were able to determine partitions we were all happy with. In the future, we will be sure to clearly understand all the documentation for the method before writing down partitions and we will start with one-dimensional partitioning so we don’t confuse ourselves.
 
 # 6 Comments/feedback on the lab itself
 
-Text…
+Overall the lab instructions were very helpful in setting up Eclipse for the project and testing itself. We also appreciated the detailed screenshots during the Eclipse set-up. Initially, our group had some confusion with developing our partitions and equivalence classes as our in-class examples were much simpler than the lab. Once we got an idea for developing the equivalent methods for more complex situations our group was able to breeze through developing them for the rest of the methods.
